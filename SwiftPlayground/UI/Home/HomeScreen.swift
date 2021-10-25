@@ -29,6 +29,7 @@ struct HomeScreen: View {
 //                        Label(HomeViewModel.Tab.Favourites.rawValue, systemImage: HomeViewModel.Tab.Favourites.icon)
 //                    }.tag(HomeViewModel.Tab.Favourites)
                 }
+                //jsdjsldkj
                 // Apply view model behaviour.
                 .onAppear(perform: { viewModel.onAppear(owner: self) })
                 .onDisappear(perform: { viewModel.onDisapear(owner: self) })
