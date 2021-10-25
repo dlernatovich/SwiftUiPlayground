@@ -15,25 +15,29 @@ struct HomeScreen: View {
     
     /// Body view.
     var body: some View {
-        ZStack {
-            TabView(selection: $viewModel.selected) {
-                // Home tab.
-                TabHomeScreen().tabItem {
-                    Label(HomeViewModel.Tab.Home.rawValue, systemImage: HomeViewModel.Tab.Home.icon)
-                }.tag(HomeViewModel.Tab.Home)
-                // Favourites tab.
-                TabFavouritesScreen().tabItem {
-                    Label(HomeViewModel.Tab.Favourites.rawValue, systemImage: HomeViewModel.Tab.Favourites.icon)
-                }.tag(HomeViewModel.Tab.Favourites)
+        NavigationView {
+            ZStack {
+                List {
+                    NavigationLink("Home", destination: TabHomeScreen())
+                    NavigationLink("Fav", destination: TabFavouritesScreen())
+//                    // Home tab.
+//                    TabHomeScreen().tabItem {
+//                        Label(HomeViewModel.Tab.Home.rawValue, systemImage: HomeViewModel.Tab.Home.icon)
+//                    }.tag(HomeViewModel.Tab.Home)
+//                    // Favourites tab.
+//                    TabFavouritesScreen().tabItem {
+//                        Label(HomeViewModel.Tab.Favourites.rawValue, systemImage: HomeViewModel.Tab.Favourites.icon)
+//                    }.tag(HomeViewModel.Tab.Favourites)
+                }
+                // Apply view model behaviour.
+                .onAppear(perform: { viewModel.onAppear(owner: self) })
+                .onDisappear(perform: { viewModel.onDisapear(owner: self) })
+                // Set accent collor.
+                .accentColor(.projectAccentCollor)
+                // Customize navigation bar.
+                .navigationBarTitle(Text(viewModel.selected.rawValue), displayMode: .inline)
+                .navigationBarBackButtonHidden(true)
             }
-            // Apply view model behaviour.
-            .onAppear(perform: { viewModel.onAppear(owner: self) })
-            .onDisappear(perform: { viewModel.onDisapear(owner: self) })
-            // Set accent collor.
-            .accentColor(.projectAccentCollor)
-            // Customize navigation bar.
-            .navigationBarTitle(Text(viewModel.selected.rawValue), displayMode: .inline)
-            .navigationBarBackButtonHidden(true)
         }
     }
 }
