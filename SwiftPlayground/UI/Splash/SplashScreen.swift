@@ -9,8 +9,7 @@ import SwiftUI
 
 /// Spalsh screen content.
 struct SplashScreen: View {
-    
-    /// View model instance.
+    @EnvironmentObject var app: AppManager
     @ObservedObject private var viewModel = SplashViewModel()
     
     /// Body instance.
@@ -39,8 +38,14 @@ struct SplashScreen: View {
                     NavigationLink(destination: HomeScreen(), isActive: $viewModel.homeScreen) { EmptyView() }
                 }
                 // Apply view model behaviour.
-                .onAppear { viewModel.onAppear(owner: self) }
-                .onDisappear(perform: { viewModel.onDisapear(owner: self) })
+                .onAppear {
+                    app.showProgress()
+                    viewModel.onAppear(owner: self)
+                }
+                .onDisappear(perform: {
+                    app.hideProgress()
+                    viewModel.onDisapear(owner: self)
+                })
                 // Customize navigation bar.
                 .navigationBarHidden(true)
                 .navigationBarBackButtonHidden(true)
